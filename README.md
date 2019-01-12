@@ -4,8 +4,11 @@ This an environment/set of notes for learning about templating and authenticatin
 ### Tech Used
 - Node.js
 - Express.js
+- Express-session
 - Pug 🐶
 - Passport
 - Helmet
+- MongoDB
+
 
 [Click here to see a demo](https://gravel-hydrogen.glitch.me/)
