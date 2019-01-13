@@ -9,6 +9,7 @@ This an environment/set of notes for learning about templating and authenticatin
 - Passport
 - Helmet
 - MongoDB
+- BCrypt
 
 
 [Click here to see a demo](https://gravel-hydrogen.glitch.me/)
