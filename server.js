@@ -6,6 +6,7 @@ const pug = require('pug');
 const session = require('express-session');
 const passport = require('passport');
 const mongo = require('mongodb').MongoClient;
+const LocalStrategy = require('passport-local');
 
 const app = express();
 app.set('view engine', 'pug');
@@ -24,10 +25,35 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect('/');
+};
+
 app.route('/')
   .get((req, res) => {
-  res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message:'Please login'});
+  res.render(process.cwd() + '/views/pug/index', {title: 'Home Page', message:'Please login', showLogin: true});
   });
+app.route('/login')
+  .post(passport.authenticate('local', { failureRedirect: '/' }), (req, res)=>{
+  res.redirect('/profile')
+});
+app.route('/profile')
+  .get(ensureAuthenticated, (req,res) => {
+       res.render(process.cwd() + '/views/pug/profile', {username: req.user.username});
+  });
+app.route('/logout')
+  .get((req, res)=>{
+    req.logout();
+    res.redirect('/');
+})
+app.use((req, res, next) => {
+  res.status(404)
+    .type('text')
+    .send('Not Found');
+});
 
 
 const ObjectId = require('mongodb').ObjectID
@@ -41,7 +67,17 @@ mongo.connect(process.env.DATABASE, (err, db) => {
       passport.serializeUser((user, done)=>{
         done(null, user._id);
       });
-
+  passport.use(new LocalStrategy(
+    (username, password, done)=>{
+      db.collection('users').findOne({username: username}, (err, user)=>{
+        console.log(`User ${username} attempted to login`);
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        if (password !== user.password) return done(null, false);
+        return done(null, false);
+      })
+    }
+  ));
 }});
 
 
