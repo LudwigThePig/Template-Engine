@@ -11,6 +11,13 @@ const GitHubStrategy = require('passport-github').Strategy;
 
 const app = express();
 
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+io.on('connection', socket => {
+  console.log('A user has connected');
+});
+
+
 fccTesting(app); //For FCC testing purposes
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(bodyParser.json());
@@ -25,7 +32,8 @@ mongo.connect(process.env.DATABASE, (err, db) => {
         console.log('Successful database connection');
    
       // auth(app, db);
-      // routes(app, db);
+      routes(app, db);
+      
       passport.use(new GitHubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,

@@ -8,7 +8,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/public/style.css')
   body
-    h1.border.center FCC Advanced Node and Express
+    h1.border.center Home Page
     h2.center#pug-success-message
     | Looks like this page is being rendered from Pug into HTML!
     | #{title}
@@ -28,6 +28,9 @@ html
           input(type='password', name='password')
         div
           input(type='submit', value='Log In')
+        h2.center Social Login
+        .login.center
+          a(href='/auth/github') Login with Github!
           
     if showRegistration
       hr

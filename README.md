@@ -5,6 +5,7 @@ This an environment/set of notes for learning about templating and authenticatin
 - Node.js
 - Express.js
 - Express-session
+- Socket.io
 - Pug 🐶
 - Passport
     - Github-Auth
