@@ -7,6 +7,7 @@ This an environment/set of notes for learning about templating and authenticatin
 - Express-session
 - Pug 🐶
 - Passport
+    - Github-Auth
 - Helmet
 - MongoDB
 - BCrypt
